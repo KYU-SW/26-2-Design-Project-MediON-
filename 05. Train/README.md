@@ -10,31 +10,23 @@
 | `run_detector_ab.ipynb` | 탐지 모델 개선 A (신뢰도 기준) · B (YOLO 추가 학습) — 완료 (아래 8장) |
 | `run_control_c.ipynb` | 대조 실험 C (비염색 그대로 YOLO 추가 학습) — 완료 (아래 8장) |
 
-## 폴더 구조
+## 폴더 구조 (학습 · 생성 · 평가를 단계별 폴더로 나눔)
 
 ```
-05. Train/
-├── code/                  스크립트 (번호 = 하는 일 순서)
-│   ├── 00_organize_folders.py   결과 폴더 정리 (한 번만, 옮기기만)
-│   ├── 10~12                    검출 모델 학습·비교
+04. Prep/        전처리 데이터
+05. Train/       학습 — 코드, 노트북, 가중치
+├── code/                스크립트 (번호 = 하는 일 순서)
+│   ├── 00_split_stages.py       05에 몰려 있던 생성·평가 결과를 06·07로 옮김 (한 번만)
+│   ├── 10~12                    검출 모델 학습·비교·채점 (12 = 모든 채점에 쓰는 공통 스크립트)
 │   ├── 13_cell_masks.py         B 방식 세포 윤곽
 │   ├── 20~23                    가상 염색 (val 분할, 적용: 21·22 CycleGAN/pix2pix, 23 UNSB)
-│   ├── 24_finetune_yolo.py      YOLO 추가 학습 (실험 B·C)
-├── external/cyclegan/     CycleGAN·pix2pix 공식 코드 (GitHub에 안 올림)
-├── external/unsb/         UNSB 공식 코드 (GitHub에 안 올림)
-├── runs/                  학습 가중치 — 모델별
-│   ├── yolo/  cell_classifier/  cyclegan/  pix2pix/  unsb/
-├── datasets/              YOLO 추가 학습용 데이터 (자동 생성, GitHub에 안 올림)
-├── virtual_stained/       가상 염색한 영상 — 모델별/epoch별 (GitHub에 안 올림)
-│   ├── cyclegan/ep15/{val,test}   pix2pix/ep…/{val,test}
-├── results/               채점 결과 (summary.csv, per_image.csv …)
-│   ├── 1_detection/       검출 모델 비교·conf 정하기 (평가 0)
-│   ├── 2_no_staining/     가상 염색 없이 비염색 그대로 (하한)
-│   ├── 3_staining/        가상 염색 모델별 (cyclegan/, pix2pix/ …), 이름 = ep<숫자>_<val|test>
-│   ├── 4_cell_mask/       B 방식 세포 윤곽
-│   ├── 5_secondary_border/ 보조 지표 (테두리 세포 제외)
-│   └── 6_detector/        탐지 모델 개선 A·B·C
-└── run_*.ipynb            실행 노트북
+│   └── 24_finetune_yolo.py      YOLO 추가 학습 (실험 B·C)
+├── run_*.ipynb          실행 노트북 (학습 → 생성 → 평가를 한 노트북에서 순서대로)
+├── runs/                학습 가중치·로그 — yolo/ cell_classifier/ cyclegan/ pix2pix/ unsb/
+├── datasets/            YOLO 추가 학습용 데이터 (자동 생성, GitHub에 안 올림)
+└── external/            CycleGAN·pix2pix, UNSB 공식 코드 (GitHub에 안 올림)
+06. Generate/    생성 — 가상 염색한 영상 (모델별/설정별, GitHub에 안 올림)
+07. Evaluate/    평가 — 채점 결과 (summary.csv, per_image.csv, 최종 비교표)
 ```
 
 ## 지금까지 결정한 것
@@ -103,10 +95,10 @@ python 11_train_cell_classifier.py --prep "D:/05. Blood/04. Prep" --out "D:/05. 
 python 12_eval_compare.py --prep "D:/05. Blood/04. Prep" ^
   --yolo "D:/05. Blood/05. Train/runs/yolo/yolo11s/weights/best.pt" ^
   --classifier "D:/05. Blood/05. Train/runs/cell_classifier/best.pt" ^
-  --out "D:/05. Blood/05. Train/results/1_detection/eval0_stained_test"
+  --out "D:/05. Blood/07. Evaluate/1_detection/eval0_stained_test"
 ```
 
-- 결과: `results/1_detection/eval0_stained_test/summary.csv`, `by_source.csv`, `per_image.csv`
+- 결과: `07. Evaluate/1_detection/eval0_stained_test/summary.csv`, `by_source.csv`, `per_image.csv`
 - Cellpose는 처음 실행할 때 모델 가중치를 자동으로 내려받습니다.
 
 ### (선택) ④ 하한 측정 — 비염색 영상을 가상 염색 없이 그대로 넣기
@@ -117,7 +109,7 @@ python 12_eval_compare.py --prep "D:/05. Blood/04. Prep" ^
   --labels "D:/05. Blood/04. Prep/4_eval_unstained/redtell_dse/labels" ^
   --yolo "D:/05. Blood/05. Train/runs/yolo/yolo11s/weights/best.pt" ^
   --classifier "D:/05. Blood/05. Train/runs/cell_classifier/best.pt" ^
-  --out "D:/05. Blood/05. Train/results/2_no_staining/eval2_unstained_no_staining"
+  --out "D:/05. Blood/07. Evaluate/2_no_staining/eval2_unstained_no_staining"
 ```
 
 염색 영상으로만 학습한 모델에 비염색을 그대로 넣으면 성능이 얼마나 떨어지는지 보는 기준선입니다 (문서 4-3 "가상 염색 없음"). 이 영상은 RBC 정답만 있어서 WBC 지표는 의미가 없습니다.
@@ -184,7 +176,7 @@ python 12_eval_compare.py --prep "D:/05. Blood/04. Prep" ^
 
 **epoch 고르는 규칙**: val RBC F1이 가장 높은 epoch. test는 고른 뒤 한 번만 채점.
 
-**B 방식 지표** (`results/4_cell_mask/cellmask_*/summary.csv`, 정답 마스크는 RBC만)
+**B 방식 지표** (`07. Evaluate/4_cell_mask/cellmask_*/summary.csv`, 정답 마스크는 RBC만)
 
 | 열 | 뜻 |
 | --- | --- |
@@ -201,7 +193,7 @@ python 12_eval_compare.py --prep "D:/05. Blood/04. Prep" ^
 
 | 코드 | 하는 일 |
 | --- | --- |
-| `00_organize_folders.py` | (한 번만) results·virtual_stained 를 단계별·모델별로 정리, 노트북 경로 갱신. 지우는 것 없음 |
+| `00_organize_folders.py` | (예전, 한 번 실행 완료) 결과 폴더를 단계별·모델별로 정리. 지금은 `00_split_stages.py`로 06·07에 옮김 |
 | `04. Prep/code/06_make_fake_pairs.py` | 가짜 짝 만들기 → `04. Prep/5_paired_synthetic/rbc_only/{A,B,AB}/{train,val}` |
 | CycleGAN 공식 코드 `train.py --model pix2pix` | pix2pix 학습 |
 | `22_apply_generator.py` | 학습한 생성기로 가상 염색 (CycleGAN·pix2pix 공통, 128 조각 단위로 변환 후 겹쳐 붙임) |

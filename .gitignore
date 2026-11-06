@@ -50,3 +50,10 @@ Thumbs.db
 
 # ---- 학습 중간 결과 그림 (데이터에서 나온 영상) ----
 05. Train/runs/*/*/web/
+
+# ---- 단계 분리 후 (06 생성 영상, 07 평가) ----
+06. Generate/*
+!06. Generate/README.md
+07. Evaluate/**/overlay/
+07. Evaluate/**/masks/
+05. Train/_backup_before_split/

@@ -33,7 +33,9 @@
 | `02. Project Proposal/` | 프로젝트 총괄 정리, 가상 염색 실험 계획 (docx·pdf) | ○ |
 | `03. Data/` | 원본 데이터셋 (TXL-PBC, RedTell 등) | ✕ (라이선스·용량) |
 | `04. Prep/` | 전처리 코드와 결과. 사용법은 [`04. Prep/README.md`](04.%20Prep/README.md) | 코드·문서만 |
-| `05. Train/` | 학습·평가 코드, 노트북, 결과 표. 사용법은 [`05. Train/README.md`](05.%20Train/README.md) | 코드·노트북·결과 csv·그래프만 |
+| `05. Train/` | 학습 — 코드, 실행 노트북, 가중치. 사용법은 [`05. Train/README.md`](05.%20Train/README.md) | 코드·노트북·로그·그래프만 |
+| `06. Generate/` | 생성 — 가상 염색한 영상 (모델별). 설명은 [`06. Generate/README.md`](06.%20Generate/README.md) | README만 |
+| `07. Evaluate/` | 평가 — 채점 결과 표 (summary·per_image csv, 최종 비교표). 설명은 [`07. Evaluate/README.md`](07.%20Evaluate/README.md) | ○ |
 
 가중치(`.pt`, `.pth`), 데이터에서 나온 영상(가상 염색 결과, 학습 중간 그림), 외부 공식 코드(`external/`)는 올리지 않습니다 (`.gitignore`).
 
