@@ -1,0 +1,2 @@
+﻿method,n_images,WBC_MAE,WBC_precision,WBC_recall,WBC_F1,RBC_MAE,RBC_precision,RBC_recall,RBC_F1,WBC_rel_error,RBC_rel_error,ms_per_image
+YOLO,9,0.0,0.0,0.0,0.0,5.778,0.7641,0.8817,0.8187,,0.2102,8.6

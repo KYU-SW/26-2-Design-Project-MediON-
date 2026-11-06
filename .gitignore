@@ -32,3 +32,21 @@ Thumbs.db
 ~$*
 05. Train/runs/**/*_batch*.jpg
 05. Train/runs/**/val_batch*.jpg
+
+# ---- 가상 염색 (CycleGAN 공식 코드, 생성 영상 = 데이터에서 나온 영상) ----
+05. Train/external/
+05. Train/virtual_stained/
+05. Train/runs/cyclegan/*/web/
+05. Train/results/**/overlay/
+05. Train/results/**/masks/
+
+# ---- 가짜 짝 데이터, 정리 전 노트북 사본 ----
+04. Prep/5_paired_synthetic/
+05. Train/_backup_before_organize/
+
+# ---- YOLO 추가 학습용 데이터 ----
+04. Prep/6_redtell_dse_train/
+05. Train/datasets/
+
+# ---- 학습 중간 결과 그림 (데이터에서 나온 영상) ----
+05. Train/runs/*/*/web/

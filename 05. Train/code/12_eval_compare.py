@@ -26,6 +26,7 @@
       --classifier "D:/05. Blood/05. Train/runs/cell_classifier/best.pt" \
       --out "D:/05. Blood/05. Train/results/eval0_stained_test"
   한쪽만 평가하려면 --yolo 또는 --classifier 만 주면 됩니다.
+  --border 6 : (보조 지표) 테두리에 걸쳐 잘린 세포를 정답·예측 모두에서 빼고 채점. 모든 방법에 똑같이 적용해서 비교
 """
 import argparse
 import csv
@@ -181,6 +182,8 @@ def main():
     ap.add_argument("--diameter", type=float, default=64, help="Cellpose 3용 세포 지름(px)")
     ap.add_argument("--cp_model", default=None, help="Cellpose 3 모델 이름 (기본 cyto3)")
     ap.add_argument("--limit", type=int, default=0, help="테스트용: 이미지 수 제한")
+    ap.add_argument("--border", type=float, default=0,
+                    help="보조 지표용: 영상 테두리에서 이 px 안쪽에 걸친 세포는 정답·예측 모두 빼고 채점 (0 = 끔, 기본)")
     a = ap.parse_args()
 
     img_dir = a.images or os.path.join(a.prep, "1_detection_train", "images", "test")
@@ -217,6 +220,9 @@ def main():
             t0 = time.perf_counter()
             pred = m(img)
             times.append((time.perf_counter() - t0) * 1000)
+            if a.border > 0:  # 테두리에 걸친 세포 제외 (정답과 예측에 똑같이)
+                inside = lambda b: b[1] >= a.border and b[2] >= a.border and b[3] <= w - a.border and b[4] <= h - a.border
+                gt, pred = [b for b in gt if inside(b)], [b for b in pred if inside(b)]
             s = src.get(n, "all")
             res = match(gt, pred)
             row = {"method": m.name, "image": n, "source": s}

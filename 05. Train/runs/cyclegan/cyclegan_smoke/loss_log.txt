@@ -1,0 +1,9 @@
+================ Training Loss (Thu Oct 29 10:27:22 2026) ================
+[Rank 0] (epoch: 1, iters: 50, time: 0.082, data: 0.013) , D_A: 0.373, G_A: 0.716, cycle_A: 4.573, idt_A: 0.835, D_B: 0.600, G_B: 0.804, cycle_B: 1.369, idt_B: 2.574
+
+[Rank 0] (epoch: 1, iters: 100, time: 0.077, data: 0.003) , D_A: 0.606, G_A: 0.737, cycle_A: 1.604, idt_A: 0.732, D_B: 0.440, G_B: 0.491, cycle_B: 0.906, idt_B: 0.868
+
+[Rank 0] (epoch: 1, iters: 150, time: 0.075, data: 0.002) , D_A: 0.191, G_A: 0.444, cycle_A: 1.595, idt_A: 0.800, D_B: 0.202, G_B: 0.607, cycle_B: 1.125, idt_B: 0.644
+
+[Rank 0] (epoch: 1, iters: 200, time: 0.077, data: 0.003) , D_A: 0.328, G_A: 0.197, cycle_A: 1.610, idt_A: 0.516, D_B: 0.293, G_B: 0.472, cycle_B: 1.253, idt_B: 1.011
+

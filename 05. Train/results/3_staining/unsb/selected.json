@@ -1,0 +1,13 @@
+{
+ "epoch": 15,
+ "nfe": 1,
+ "val": {
+  "epoch": 15.0,
+  "NFE": 1.0,
+  "RBC_MAE": 4.444,
+  "RBC_precision": 0.8165,
+  "RBC_recall": 0.9083,
+  "RBC_F1": 0.8599
+ },
+ "rule": "val RBC F1 \ucd5c\uace0 (\ub3d9\uc810\uc774\uba74 MAE \ub0ae\uc740 \ucabd)"
+}

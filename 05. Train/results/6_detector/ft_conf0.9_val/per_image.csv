@@ -1,0 +1,10 @@
+﻿method,image,source,gt_WBC,pred_WBC,gt_RBC,pred_RBC
+YOLO,dse_84.png,all,0,0,24,8
+YOLO,dse_85.png,all,0,0,34,20
+YOLO,dse_86.png,all,0,0,18,14
+YOLO,dse_87.png,all,0,0,62,43
+YOLO,dse_89.png,all,0,0,41,9
+YOLO,dse_90.png,all,0,0,47,32
+YOLO,dse_91.png,all,0,0,52,35
+YOLO,dse_92.png,all,0,0,38,31
+YOLO,dse_93.png,all,0,0,22,18

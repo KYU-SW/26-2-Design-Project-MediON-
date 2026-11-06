@@ -1,0 +1,5 @@
+================ Training Loss (Fri Oct 30 10:46:38 2026) ================
+(epoch: 1, iters: 50, time: 0.175, data: 0.015) G_GAN: 0.227 D_real: 0.340 D_fake: 0.187 G: 5.008 NCE: 4.785 SB: 0.033 NCE_Y: 4.711 
+(epoch: 1, iters: 100, time: 0.174, data: 0.004) G_GAN: 0.988 D_real: 0.010 D_fake: 0.006 G: 5.553 NCE: 4.585 SB: 0.016 NCE_Y: 4.514 
+(epoch: 1, iters: 150, time: 0.170, data: 0.004) G_GAN: 0.978 D_real: 0.002 D_fake: 0.025 G: 4.918 NCE: 3.904 SB: 0.032 NCE_Y: 3.913 
+(epoch: 1, iters: 200, time: 0.170, data: 0.003) G_GAN: 0.512 D_real: 0.780 D_fake: 0.173 G: 4.328 NCE: 3.848 SB: 0.029 NCE_Y: 3.727 

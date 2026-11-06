@@ -15,7 +15,9 @@
 | 검출·계수 모델 학습 (셀 기반, Cellpose) | `1_detection_train/` + `2_cell_crops/` | Cellpose 뒤에 붙는 RBC/WBC 분류기 학습용 세포 조각 |
 | 가상 염색 모델 학습 (CycleGAN·UNSB) | `3_virtual_staining/rbc_only/` | 비염색 조각(A) + 염색 조각(B). **지금은 이것** |
 | 〃 (짝 데이터 받은 뒤) | `3_virtual_staining/all/` | WBC 포함 버전 |
-| 최종 채점 | `4_eval_unstained/` | 실제 비염색 영상 93장 + RBC 정답 4,022개 |
+| 짝이 필요한 가상 염색 모델 학습 (pix2pix·BBDM) | `5_paired_synthetic/rbc_only/` | 염색 조각 + 규칙으로 만든 가짜 비염색 짝 (`06_make_fake_pairs.py`로 생성) |
+| 최종 채점 | `4_eval_unstained/redtell_dse/` | 실제 비염색 영상 91장 (97·163번 정답 오류로 `_excluded_bad_gt/`로 뺌) |
+| epoch·설정 고르기 | `4_eval_unstained/redtell_dse_val/` | 실제 비염색 영상 9장 (dse 84~93, 88 제외). 가상 염색 학습에서 뺀 영상 |
 | 기록 확인 | `meta/` | 배율 보정 비율, 영상별 출처·분할 목록 |
 | 데이터 다시 만들기 | `code/` | 전처리 코드 |
 
@@ -29,7 +31,8 @@
 │   ├── 02_measure_redtell_rbc.py  RedTell 세포 크기 측정 (56.5 px)
 │   ├── 03_prep_data.py            전처리 본체 (아래 1~4번 폴더와 meta 생성)
 │   ├── 04_check_outputs.py        결과 개수 확인 + 미리보기
-│   └── 05_reorganize_folders.py   예전 zip 풀어둔 폴더를 이 구조로 정리 (한 번만)
+│   ├── 05_reorganize_folders.py   예전 zip 풀어둔 폴더를 이 구조로 정리 (한 번만)
+│   └── 06_make_fake_pairs.py      염색 조각 → 가짜 비염색 짝 (5번 폴더 생성)
 ├── 1_detection_train/
 │   ├── images/{train,val,test}/   882 / 252 / 126장
 │   ├── labels/{train,val,test}/   YOLO 형식, 0 = WBC, 1 = RBC
@@ -38,12 +41,16 @@
 ├── 2_cell_crops/{train,val,test}/{RBC,WBC}/   세포 조각 96×96
 ├── 3_virtual_staining/
 │   ├── rbc_only/  trainA 4,926 · trainB 1,378 · testA 2,779 · testB 536  (128×128)
-│   └── all/       trainA 4,300 · trainB 3,730 · testA 837 · testB 1,090  (256×256)
+│   ├── all/       trainA 4,300 · trainB 3,730 · testA 837 · testB 1,090  (256×256)
+│   └── _holdout_val/  val로 쓰려고 trainA에서 뺀 dse 84~93 조각
 ├── 4_eval_unstained/redtell_dse/
 │   ├── images/    비염색 영상 (가상 염색 모델 입력)
 │   ├── labels/    정답 박스 (YOLO 형식, 1 = RBC)
 │   ├── masks/     정답 마스크 (16bit, 셀 기반 평가용)
 │   └── counts.csv 영상별 정답 개수
+├── 5_paired_synthetic/
+│   ├── rbc_only/{A,B,AB}/{train,val}   A 가짜 비염색 · B 진짜 염색 · AB 옆으로 붙인 것 (pix2pix 형식)
+│   └── check_txl_val/                  TXL 검증 영상 전체의 가짜 비염색 (YOLO로 현실성 확인용)
 └── meta/
 ```
 

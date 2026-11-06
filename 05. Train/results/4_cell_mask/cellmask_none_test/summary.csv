@@ -1,0 +1,4 @@
+﻿mask_method,n_images,n_cells_detected,mask_coverage,ms_per_image_yolo,ms_per_image_mask,seg_precision,seg_recall,seg_F1,mean_IoU_matched,area_rel_error
+cellpose,91,2617,0.9985,27.1,843.7,0.9782,0.7278,0.8346,0.8153,0.2259
+sam,91,2617,1.0,27.1,105.9,0.9748,0.7261,0.8322,0.8188,0.2193
+ellipse,91,2617,1.0,27.1,5.2,0.9717,0.7238,0.8296,0.7846,0.2515
